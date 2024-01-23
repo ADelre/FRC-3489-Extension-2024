@@ -26,6 +26,10 @@ jobs:
           node-version: 16.18.0
           cache: npm
 
+      - name: Create Lock File
+        id: build-lock-file
+        run: npm install
+        
       - name: Install Dependencies
         id: npm-ci
         run: npm ci
