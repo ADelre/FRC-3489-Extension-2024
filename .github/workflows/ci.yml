@@ -23,7 +23,7 @@ jobs:
         id: setup-node
         uses: actions/setup-node@v4
         with:
-          node-version: 16.32.0
+          node-version: 16.18.0
           cache: npm
 
       - name: Install Dependencies
