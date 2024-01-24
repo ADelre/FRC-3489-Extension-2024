@@ -18,6 +18,10 @@
   "contributes": {
     "commands": [
       {
+        "command": "frc-2024.generateCommand",
+        "title": "FRC: Generate Command"
+      },
+      {
         "command": "frc-2024.generateSubsystem",
         "title": "FRC: Generate Subsystem"
       }
