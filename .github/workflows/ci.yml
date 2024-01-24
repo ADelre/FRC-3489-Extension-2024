@@ -35,7 +35,7 @@ jobs:
         run: npm run lint
 
       - name: Intstall vsce dependency
-        id: npm-lint
+        id: npm-vsce
         run: npm install -g @vscode/vsce@2.22.0
 
       - name: Generate Extension File
