@@ -40,13 +40,16 @@ jobs:
         id: generate-vsix
         run: vsce package
 
+      - name: Set current artifaxt version as env variable
+        run: echo "artifact_version=$(cat package.json | jq --raw-output '.version')" >> $GITHUB_ENV
+
       - name: Create Release
         id: create-release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
+          tag_name: ${{ env.artifact_version }}
           release_name: Release ${{ github.ref }}
           draft: false
           prerelease: false
