@@ -8,7 +8,7 @@ export function activate(context: vscode.ExtensionContext) {
   // The command has been defined in the package.json file
   // Now provide the implementation of the command with registerCommand
   // The commandId parameter must match the command field in package.json
-  let disposable = vscode.commands.registerCommand(
+  let disposable1 = vscode.commands.registerCommand(
     "frc-2024.generateSubsystem",
     async () => {
       const subsystemName = await vscode.window.showInputBox({
@@ -53,7 +53,7 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   
-let disposable = vscode.commands.registerCommand(
+let disposable2 = vscode.commands.registerCommand(
     "frc-2024.generateCommand",
     async () => {
       const commandName = await vscode.window.showInputBox({
@@ -96,7 +96,10 @@ let disposable = vscode.commands.registerCommand(
       }
     }
   );
-  context.subscriptions.push(disposable);
+  
+  context.subscriptions.push(disposable1);
+  context.subscriptions.push(disposable2);
+
 }
 
 // This method is called when your extension is deactivated
