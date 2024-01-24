@@ -16,6 +16,23 @@
   "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
+    "configuration": {
+      "title": "FRC-2024",
+      "properties": {
+        "FRC.directory.commands": {
+          "type": "string",
+          "scope": "resource",
+          "default": "/src/main/java/frc/robot/commands",
+          "description": "Direcotry where robot 'commands' are stored."
+        },
+        "FRC.directory.subsystems": {
+          "type": "string",
+          "scope": "resource",
+          "default": "/src/main/java/frc/robot/subsystems",
+          "description": "Direcotry where robot 'subsystems' are stored."
+        }
+      }
+    },
     "commands": [
       {
         "command": "frc-2024.generateCommand",

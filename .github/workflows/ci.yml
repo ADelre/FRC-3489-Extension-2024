@@ -45,5 +45,5 @@ jobs:
       - name: Upload Extension Release
         uses: actions/upload-artifact@v3
         with:
-          name: frc-2024.vsix
+          name: frc-2024
           path: frc-*.vsix
