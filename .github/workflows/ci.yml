@@ -42,8 +42,24 @@ jobs:
         id: generate-vsix
         run: vsce package
 
-      - name: Upload Extension Release
-        uses: actions/upload-artifact@v3
+      - name: Create Release
+        id: create-release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: frc-2024
-          path: frc-*.vsix
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Relase Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: frc-*.vsix
+          asset_name: frc-extension.vsix
+          asset_content_type: application/zip
