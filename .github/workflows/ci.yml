@@ -46,4 +46,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: frc-2024.vsix
-          path: ${{ env.main_project_module }}/frc-*.vsix
+          path: frc-*.vsix
