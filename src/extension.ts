@@ -52,6 +52,50 @@ export function activate(context: vscode.ExtensionContext) {
     }
   );
 
+  
+let disposable = vscode.commands.registerCommand(
+    "frc-2024.generateCommand",
+    async () => {
+      const commandName = await vscode.window.showInputBox({
+        placeHolder: "Command Name",
+      });
+      // The code you place here will be executed every time your command is executed
+      // Display a message box to the user
+
+      const wsedit = new vscode.WorkspaceEdit();
+      if (vscode.workspace.workspaceFolders) {
+        const fs = require("node:fs");
+        const wsPath = vscode.workspace.workspaceFolders[0].uri.fsPath; // gets the path of the first workspace folder
+        const CommandDIR = "/src/commands/";
+        const filePath = vscode.Uri.file(
+          wsPath + CommandDIR + commandName + ".java"
+        );
+        vscode.window.showInformationMessage(wsPath);
+        wsedit.createFile(filePath, { ignoreIfExists: true });
+        await vscode.workspace.applyEdit(wsedit);
+
+        const content =
+          `package ${CommandDIR};\n\n` +
+          "import edu.wpi.first.wpilibj2.command.CommandBase;\n\n" +
+          `public class ${commandName} extends CommandBase{\n\tpublic ${commandName}(){\n\n\t}\n}`;
+
+        try {
+          fs.writeFileSync(filePath.path, content);
+          // file written successfully
+        } catch (err) {
+          console.error(err);
+          if (err instanceof Error) {
+            vscode.window.showInformationMessage(err.message);
+          }
+        }
+        vscode.window.showInformationMessage(
+          `Command ${commandName} has been generated!`
+        );
+      } else {
+        vscode.window.showInformationMessage("WorkspaceFolders is null!");
+      }
+    }
+  );
   context.subscriptions.push(disposable);
 }
 
