@@ -48,9 +48,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release create "${env.artifact_version}" \
+          gh release create "$(env.artifact_version)" \
               --repo="$GITHUB_REPOSITORY" \
-              --title="${GITHUB_REPOSITORY#*/} ${env.artifact_version}" \
+              --title="${GITHUB_REPOSITORY#*/} $(env.artifact_version)" \
               --generate-notes
 
       - name: Upload Relase Asset
