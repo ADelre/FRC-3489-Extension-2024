@@ -10,8 +10,8 @@ permissions:
   contents: read
 
 jobs:
-  test-typescript:
-    name: TypeScript Tests
+  build:
+    name: Build
     runs-on: ubuntu-latest
 
     steps:
@@ -33,3 +33,13 @@ jobs:
       - name: Lint
         id: npm-lint
         run: npm run lint
+
+      - name: Generate Extension File
+        id: generate-vsix
+        run: vsce package
+
+      - name: Upload Extension Release - ${{ env.repository_name }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: frc-2024.vsix
+          path: /*.vsix
