@@ -42,8 +42,8 @@ jobs:
         id: generate-vsix
         run: vsce package
 
-      - name: Upload Extension Release - ${{ env.repository_name }}
+      - name: Upload Extension Release
         uses: actions/upload-artifact@v3
         with:
           name: frc-2024.vsix
-          path: /*.vsix
+          path: ${{ env.main_project_module }}/frc-*.vsix
