@@ -62,7 +62,7 @@ async function prepareFile(fileType: FILE_TYPES) {
       );
       return;
     }
-    prepareCommandFile(fileName, config);
+    prepareCommandFile(fileName, config, subName[0]);
   }
 
   prepareSubsystemFile(subName[0], config);
@@ -70,18 +70,36 @@ async function prepareFile(fileType: FILE_TYPES) {
 
 function prepareCommandFile(
   fileName: string | undefined,
-  config: WorkspaceConfiguration
+  config: WorkspaceConfiguration,
+  subsystemName: string
 ) {
   const fileDIR = config.get(
     `directory.${FILE_TYPES.COMMAND.toLowerCase()}s`
   ) as string;
+  const subFileDIR = config.get(
+    `directory.${FILE_TYPES.SUBSYSTEM.toLowerCase()}s`
+  ) as string;
   const fileDIRSanitized = fileDIR.slice(-1) === "/" ? fileDIR : fileDIR + "/";
+  const subFileDIRSanitized =
+    subFileDIR.slice(-1) === "/" ? subFileDIR : subFileDIR + "/";
+
+  vscode.window.showInformationMessage(
+    "sub lastchar: " + subFileDIRSanitized.slice(-1)
+  );
+
   const content =
     `package ${fileDIRSanitized
       .substring(1, fileDIRSanitized.lastIndexOf("/"))
       .replaceAll("/", ".")};\n\n` +
     `import edu.wpi.first.wpilibj2.command.${FILE_TYPES.COMMAND}Base;\n\n` +
-    `public class ${fileName} extends CommandBase{\n\tpublic ${fileName}(){\n\n\t}\n}`;
+    `import ${subFileDIRSanitized
+      .substring(1, subFileDIRSanitized.lastIndexOf("/"))
+      .replaceAll("/", ".")}.${subsystemName};\n\n` +
+    `public class ${fileName} extends CommandBase{\n\n` +
+    `\tprivate ${subsystemName} ${lowerFirstLetter(
+      subsystemName
+    )} = new ${subsystemName}();\n\n` +
+    `\tpublic ${fileName}(){\n\n\t}\n}`;
 
   createFile(FILE_TYPES.COMMAND, fileName, fileDIRSanitized, content);
 }
@@ -99,7 +117,8 @@ async function prepareSubsystemFile(
       .substring(1, fileDIRSanitized.lastIndexOf("/"))
       .replaceAll("/", ".")};\n\n` +
     `import edu.wpi.first.wpilibj2.command.${FILE_TYPES.SUBSYSTEM}Base;\n\n` +
-    `public class ${fileName} extends SubsystemBase{\n\tpublic ${fileName}(){\n\n\t}\n\t@Override\n\tpublic void periodic() {\n\t}\n}`;
+    `public class ${fileName} extends SubsystemBase{\n\n` +
+    `\tpublic ${fileName}(){\n\n\t}\n\n\t@Override\n\tpublic void periodic() {\n\t}\n}`;
 
   createFile(FILE_TYPES.SUBSYSTEM, fileName, fileDIRSanitized, content);
 }
@@ -147,6 +166,10 @@ async function createFile(
 
 function capitalizeFirstLetter(val: string | undefined): string | undefined {
   return val ? val?.charAt(0).toUpperCase() + val?.slice(1) : undefined;
+}
+
+function lowerFirstLetter(val: string | undefined): string | undefined {
+  return val ? val?.charAt(0).toLocaleLowerCase() + val?.slice(1) : undefined;
 }
 
 // This method is called when your extension is deactivated

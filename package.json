@@ -2,7 +2,7 @@
   "name": "frc-2024",
   "displayName": "FRC-3489-Extension-2024",
   "description": "This plugin is to aid teams with generated boilerplate code for robot Subsytems and Commands",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "engines": {
     "vscode": "^1.85.0"
   },
